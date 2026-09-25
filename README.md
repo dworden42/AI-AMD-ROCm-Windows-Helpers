@@ -108,9 +108,3 @@ To provision a standalone AI-Toolkit training environment:
 ```
 
 Refer to the [AI-Toolkit Standalone Guide](amd-ai-toolkit-standalone/AMD_AI_TOOLKIT_STANDALONE.md) for training configuration examples and troubleshooting.
-
----
-
-## Contributing & Community
-
-Issues, hardware reports, and pull requests are welcome! If you test these utilities on other AMD GPU configurations or newer ROCm builds, please feel free to open an issue or submit a PR documenting your results.
