@@ -1,0 +1,144 @@
+# ==============================================================================
+# Git Ignore - AMD ROCm Windows Helpers
+# ==============================================================================
+
+# --- Python Virtual Environments ---
+.venv/
+.venv*/
+venv/
+venv*/
+env/
+env*/
+ENV/
+env.bak/
+venv.bak/
+*_venv/
+
+# --- Python Bytecode & Cache ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.coverage
+.coverage.*
+htmlcov/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# --- Package Builds, Distributions & Wheels ---
+build/
+dist/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+*.whl
+*.tar.gz
+
+# --- Jupyter / IPython ---
+.ipynb_checkpoints
+*-checkpoint.ipynb
+
+# --- Local Clones & Workspaces (Installed by Setup Scripts) ---
+ai-toolkit/
+ComfyUI/
+custom_nodes/
+
+# --- Generative AI Models, Weights & Checkpoints ---
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.bin
+*.onnx
+*.gguf
+
+# --- Runtime Outputs, Datasets & Models Directories ---
+output/
+outputs/
+models/
+input/
+inputs/
+datasets/
+checkpoints/
+
+# --- Process Logs & Daemon Files ---
+*.log
+*.out
+*.err
+*.pid
+comfyui.log
+comfyui.pid
+
+# --- IDEs & Editors ---
+# Visual Studio Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# JetBrains (PyCharm, IntelliJ, etc.)
+.idea/
+*.iws
+*.iml
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# --- AI Agents & Workspace Scratch Dirs ---
+.gemini/
+.claude/
+.cursor/
+.windsurf/
+scratch/
+
+# --- Operating System Files ---
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
