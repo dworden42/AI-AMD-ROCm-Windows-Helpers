@@ -17,6 +17,7 @@ This document outlines the **architectural mechanics of the runtime patches deve
 > [!NOTE]
 > **Project Context & Disclaimer**:
 > - **Proof of Concept**: This setup script and patch collection represent an early **proof of concept** created to overcome current Windows AMD ROCm hurdles. While this setup has been tested and verified on our local hardware (Radeon RX 9070 XT), AMD hardware configurations, Windows driver versions, and environments can differ significantly—what works seamlessly in our test environment may require adjustments or further testing on yours. Community feedback and real-world testing are warmly welcomed!
+> - **Performance Expectation (AMD vs. NVIDIA)**: Native Windows AMD ROCm training may currently be slower than native NVIDIA CUDA training due to early Windows ROCm driver maturity and attention kernel optimizations. However, it is **fully working natively on Windows** without requiring dual-boot Linux configurations, heavy WSL2 virtual machines, or restrictive DirectML fallbacks.
 > - **AI-Assisted Development**: These scripts, patches, and documentation were created with AI assistance. In the spirit of complete transparency: if you prefer not to use AI-assisted code, please feel free to pass on this script and wait for official upstream Windows ROCm fixes from the respective project maintainers.
 > - **LoRAMancer Context**: These fixes originated as part of **LoRAMancer** (an upcoming desktop LoRA manager and training orchestrator, currently **unreleased / in private development**). It is not yet released publicly because we are currently in deep hardware validation, thorough testing, critical bug fixing, and UI polish stages. Once ready, LoRAMancer will be 100% open source and we will warmly welcome community contributions! We are sharing this standalone setup script early to give fellow AMD creators a working solution without having to wait for the complete desktop suite.
 
@@ -83,12 +84,12 @@ import torch # calls _rocm_init.initialize() -> import rocm_sdk -> from ._dist_i
 The Windows port queries Unix shared libraries that do not exist on Windows, raising `ModuleNotFoundError: No module named 'libhipsparselt'` or indentation syntax errors.
 
 **The Patch:**
-Appends `optional=True` library entry stubs without leading indentation to `.venv/Lib/site-packages/rocm_sdk/_dist_info.py`:
+Appends 4-argument library entry stubs without leading indentation to `.venv/Lib/site-packages/rocm_sdk/_dist_info.py`:
 ```python
 # [loramancer] windows-missing-libs
-LibraryEntry("hipsparselt", "core", "libhipsparselt.so.0", "", optional=True)
-LibraryEntry("hipdnn", "core", "libhipdnn.so.0", "", optional=True)
-LibraryEntry("rocm-openblas", "core", "librocm-openblas.so.0", "", optional=True)
+LibraryEntry("hipsparselt", "core", "libhipsparselt.so.0", "")
+LibraryEntry("hipdnn", "core", "libhipdnn.so.0", "")
+LibraryEntry("rocm-openblas", "core", "librocm-openblas.so.0", "")
 ```
 
 ---

@@ -257,20 +257,29 @@ Write-Step "Applying custom AMD Windows runtime patches..."
 $RocmDistInfo = Join-Path $VenvDir "Lib\site-packages\rocm_sdk\_dist_info.py"
 if (Test-Path $RocmDistInfo) {
     $content = [System.IO.File]::ReadAllText($RocmDistInfo)
+    $modified = $false
     if ($content -match "    LibraryEntry\(") {
         $content = $content.Replace("    LibraryEntry(", "LibraryEntry(")
+        $modified = $true
+    }
+    if ($content -match ", optional=True") {
+        $content = $content.Replace(", optional=True", "")
+        $modified = $true
+        Write-Success "Auto-repaired rocm_sdk\_dist_info.py (removed invalid optional=True parameter)."
+    }
+    if ($modified) {
         [System.IO.File]::WriteAllText($RocmDistInfo, $content)
     }
     if ($content -notmatch "\[loramancer\] windows-missing-libs") {
         $missingStubs = @()
         if ($content -notmatch "hipsparselt") {
-            $missingStubs += 'LibraryEntry("hipsparselt", "core", "libhipsparselt.so.0", "", optional=True)'
+            $missingStubs += 'LibraryEntry("hipsparselt", "core", "libhipsparselt.so.0", "")'
         }
         if ($content -notmatch "hipdnn") {
-            $missingStubs += 'LibraryEntry("hipdnn", "core", "libhipdnn.so.0", "", optional=True)'
+            $missingStubs += 'LibraryEntry("hipdnn", "core", "libhipdnn.so.0", "")'
         }
         if ($content -notmatch "rocm-openblas") {
-            $missingStubs += 'LibraryEntry("rocm-openblas", "core", "librocm-openblas.so.0", "", optional=True)'
+            $missingStubs += 'LibraryEntry("rocm-openblas", "core", "librocm-openblas.so.0", "")'
         }
         if ($missingStubs.Count -gt 0) {
             $patchBlock = "`n# [loramancer] windows-missing-libs`n" + ($missingStubs -join "`n") + "`n"
